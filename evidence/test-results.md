@@ -7,8 +7,8 @@
 | Project | The Last Clue — VM-Based CTF |
 | Test environment | Ubuntu CTF server VM + Kali Linux participant VM |
 | Network mode | VirtualBox Host-Only Adapter (intended design) |
-| Tester(s) | [Add group member name(s)] |
-| Test date | [YYYY-MM-DD] |
+| Tester(s) | [IT24100500 - Sandeepa H.K.C] |
+| Test date | [2026-10-10] |
 | Build/version | [Commit hash or version] |
 
 > **Evidence integrity:** Enter `PASS` only after observing the expected result. Use `FAIL` when a test does not meet its expected result, and `NOT TESTED` when it has not yet been performed. Attach genuine screenshots, terminal output, or PCAP/log evidence where appropriate. Do not report planned or example results as completed tests.

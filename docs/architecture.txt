@@ -1,0 +1,90 @@
+THE LAST CLUE — CTF PLATFORM ARCHITECTURE
+================================================
+
+Project: The Last Clue — VM-based Capture The Flag (CTF)
+Module: IE3132 Penetration Testing — Assignment 02
+Role: Member 01 — CTF Platform & Architecture
+
+STATUS
+------
+This diagram describes the intended architecture based on the project design.
+Confirm that the running environment matches it before submitting as implemented.
+
+                           PHYSICAL HOST
+                    +---------------------------+
+                    |        VirtualBox         |
+                    |                           |
+                    |   +-------------------+   |
+                    |   | Kali Linux VM     |   |
+                    |   | Participant       |   |
+                    |   |                   |   |
+                    |   | Nmap / Browser    |   |
+                    |   | SSH / Python      |   |
+                    |   | ExifTool / etc.   |   |
+                    |   +---------+---------+   |
+                    |             |             |
+                    |             |              |
+                    |      HOST-ONLY NETWORK     |
+                    |             |             |
+                    |   +---------v---------+   |
+                    |   | Ubuntu Server VM  |   |
+                    |   | CTF / Evidence    |   |
+                    |   |                   |   |
+                    |   | Apache: TCP/80    |   |
+                    |   | OpenSSH: TCP/22   |   |
+                    |   | CTF users/files   |   |
+                    |   | Forensic evidence |   |
+                    |   +-------------------+   |
+                    +---------------------------+
+
+EXAMPLE NETWORK VALUES — REPLACE WITH VERIFIED VALUES
+-----------------------------------------------------
+Ubuntu CTF server: 192.168.56.10/24
+Kali participant:  192.168.56.20/24
+Example subnet:    192.168.56.0/24
+
+These values are examples only. Check for conflicts and document the
+actual IP addresses, subnet, and VirtualBox adapter names used.
+
+INTENDED CHALLENGE FLOW
+-----------------------
+TLC-01 — The Father's First Trace
+  Apache / robots.txt / secret.txt
+                 |
+                 v
+TLC-02 — Levin's Photograph
+  Investigate the clue and reach the intended Levin account
+                 |
+                 v
+TLC-03 — Bella's Scripted Lock
+  Standalone Python programming / logic challenge
+                 |
+                 v
+TLC-04 — Bella's Ciphered Note
+  Cryptographic analysis
+                 |
+                 v
+TLC-05 — Adam's Deleted Timeline
+  Digital forensics and network evidence
+                 |
+                 v
+TLC-06 — The Last Transmission
+  Correlate evidence and complete authorized CTF privilege escalation
+
+ACCOUNT / PRIVILEGE NOTES
+-------------------------
+- The intended Levin-to-Bella transition is horizontal movement between
+  user accounts, not vertical privilege escalation.
+- The final stage may use a deliberately configured, narrowly scoped
+  sudo privilege for the CTF account.
+- Use CTF-only credentials, keys, flags, and evidence.
+- Stage 3 is a standalone Python challenge; it does not require Flask or
+  another web server.
+
+SECURITY BOUNDARY
+-----------------
+- Use a VirtualBox Host-only network for the isolated lab.
+- Avoid unrestricted bridged networking during the demonstration.
+- The intended exposed Ubuntu services are TCP/22 (SSH) and TCP/80 (HTTP).
+- Verify actual listening ports and reachability from Kali; do not assume
+  this architecture is already implemented or tested.

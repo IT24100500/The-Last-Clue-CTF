@@ -1,0 +1,19 @@
+Create PCAP on Ubuntu
+sudo apt install -y python3-scapy
+sudo -u ctf python3 - <<'PY'
+from scapy.all import IP, TCP, Raw, wrpcap
+
+pkts = []
+for payload in [
+    b"EVENT=HEARTBEAT",
+    b"EVENT=FINAL_TRANSMISSION;TOKEN=TLC-06"
+]:
+    pkts.append(
+        IP(src="192.168.56.20", dst="192.168.56.10") /
+        TCP(sport=41000, dport=8080, flags="PA") /
+        Raw(load=payload)
+    )
+wrpcap("/opt/the-last-clue/stage06/pcap/final_transmission.pcap", pkts)
+PY
+
+sudo tshark -r /opt/the-last-clue/stage06/pcap/final_transmission.pcap

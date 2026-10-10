@@ -1,0 +1,28 @@
+MEMBER 4 - POST-RESTORE CHECKS
+==============================
+
+Snapshot tree:
+  Member 4 Evidence - Pre-deployment Recovery Point
+  Member 4 Evidence - Clean Baseline (current snapshot)
+
+VirtualBox runtime network settings:
+  nic1=null
+  cableconnected1=off
+  nic2=hostonly (VirtualBox Host-Only Ethernet Adapter)
+  cableconnected2=on
+
+Guest checks after restore:
+  the-last-clue-http.service: active
+  http://192.168.56.103/robots.txt: HTTP 200
+  Host-only HTTP still returned HTTP 200 after NIC 1 was disconnected.
+  Stage 3 hint file: root:root, mode 0600 (confirmed by namei)
+
+The protected Stage 3 hint cannot be read by the normal guest account. Therefore
+the post-restore marker contents were not independently read-verified; the
+controlled mutation was visible before restoration and the clean baseline
+snapshot was restored. verify-reset.sh is provided for a root-run content check.
+The script passed bash syntax validation after correction but was not run as root.
+
+The first uploaded verifier copy had a heredoc syntax error; it was corrected,
+syntax-checked, and removed from the VM. Temporary SSH test-key authorization
+was also removed after the checks.

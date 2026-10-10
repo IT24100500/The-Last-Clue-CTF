@@ -9,7 +9,7 @@
 | Network mode | VirtualBox Host-Only Adapter (intended design) |
 | Tester(s) | [IT24100500 - Sandeepa H.K.C] |
 | Test date | [2026-10-10] |
-| Build/version | [Commit hash or version] |
+| Build/version | [49e7d4bba4fdba54c29ef96ac600c123fc5209f3)] |
 
 > **Evidence integrity:** Enter `PASS` only after observing the expected result. Use `FAIL` when a test does not meet its expected result, and `NOT TESTED` when it has not yet been performed. Attach genuine screenshots, terminal output, or PCAP/log evidence where appropriate. Do not report planned or example results as completed tests.
 

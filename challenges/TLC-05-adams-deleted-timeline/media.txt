@@ -1,0 +1,20 @@
+/media/log
+
+sudo -u adam bash -c 'cat > /media/log/access.log <<EOF
+2026-09-10T20:10:02Z LOGIN user=adam
+2026-09-10T20:12:17Z FILE_OPEN file=family_note.txt
+2026-09-10T20:14:31Z NETWORK_EVENT src=10.10.10.20 dst=10.10.10.30
+2026-09-10T20:14:35Z FILE_DELETE file=transmission.txt
+2026-09-10T20:16:02Z LOGOUT user=adam
+EOF
+
+cat > /media/log/timeline.txt <<EOF
+Family investigation notes
+20:14 was marked as important.
+The network evidence should be checked around this time.
+EOF
+
+cat > /media/log/.deleted_transmission.txt <<EOF
+PCAP-WINDOW=20:14:00-20:15:00
+TLC-05
+EOF

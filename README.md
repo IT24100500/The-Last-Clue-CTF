@@ -1,115 +1,117 @@
-# 🕵️ The Last Clue — CTF
+# The Last Clue CTF — Stage 4-6
 
-> A story-driven, VM-based Capture The Flag project for cybersecurity and penetration-testing education.
+This branch contains the middle section of the story-driven CTF challenge, focusing on the final three investigative stages of the case.
+
+The full narrative follows the mysterious disappearance of clues tied to the deaths and digital evidence surrounding Levin, Bella, and Adam. These stages continue the forensic and privilege-escalation investigation, moving from local system compromise to timeline reconstruction and packet analysis.
 
 ## Overview
 
-**The Last Clue** is an educational Capture The Flag (CTF) challenge built around a digital investigation. Participants follow the story of three siblings—**Levin, Bella, and Adam**—as they examine digital evidence and uncover the truth behind their mother's unexplained death.
+Stage 4-6 introduces a progression of security concepts and forensic skills:
 
-The project combines narrative-driven investigation with practical cybersecurity tasks, including Linux permissions, user access control, privilege escalation, web-service troubleshooting, protected evidence, and virtual-machine recovery.
-
-## Project goals
-
-- Provide a realistic, story-driven cybersecurity learning experience.
-- Teach practical Linux and penetration-testing concepts in a controlled environment.
-- Guide participants through a sequence of clues and digital artefacts.
-- Demonstrate secure access control and protected evidence handling.
-- Validate the challenge through repeatable integration and recovery tests.
+- Privilege escalation via a sudo rule that allows Bella to execute a Python script as Adam
+- Timeline reconstruction from deleted or hidden evidence
+- Network forensics and PCAP analysis to recover the final transmission
 
 ## Challenge structure
 
-The challenge is organised into six stages. Each stage introduces new clues or artefacts and progressively expands the investigation.
+```text
+.
+├── README.md
+├── challenges/
+│   ├── TLC-04-bellas-scripted-lock/
+│   │   └── note.py
+│   ├── TLC-05-adams-deleted-timeline/
+│   │   └── media.txt
+│   └── TLC-06-last-transmission/
+│       └── pcap_analysis.txt
+└──
+```
 
-Participants should:
+## Stage 4 — Bella's Scripted Lock
 
-1. Start from the deployed virtual machine and identify the available evidence.
-2. Follow the clue trail through the six stages.
-3. Use the supplied accounts, services, and artefacts to progress through the investigation.
-4. Analyse access restrictions and protected files.
-5. Investigate the web service and resolve the documented HTTP issue where required.
-6. Recover the clean challenge state using the provided VirtualBox snapshot evidence.
+Location: `challenges/TLC-04-bellas-scripted-lock/note.py`
 
-> The exact challenge answers and final flag are intentionally not included in this README.
+This challenge demonstrates a classic Linux privilege escalation path:
 
-## Repository contents
+- User `bella` can run Python as user `adam` through sudo
+- The script is designed to be abused by replacing or manipulating the target script at `/tmp/note.py`
+- The goal is to understand how an attacker can turn a constrained sudo rule into code execution as another user
 
-The repository contains the challenge implementation, deployment material, design documentation, stage content, and testing evidence. The integration branch includes the following evidence directory:
+The file contains a practical PoC showing how the attacker can:
 
-### `Member 4 Evidence/`
+- validate the environment
+- inspect the target user and GID
+- create a malicious payload
+- execute commands as `adam`
+- restore the original script afterward
 
-This directory contains integration-test outputs, screenshots, and re-runnable test scripts:
+This challenge emphasizes safe, authorized security testing and demonstrates how sudoers misconfigurations can become full privilege escalation.
 
-- `01-end-to-end-tests.png` — End-to-end clue, artefact, key, access-control, and permission checks.
-- `02-access-control.png` — Demonstration of denied access and root-only protected files.
-- `03-http-defect-and-fix.png` — Web-root permission defect and successful repair.
-- `04-reset-before-restore.png` — Controlled snapshot-reset mutation.
-- `05-reset-after-restore.png` — Post-restore VM and HTTP-service verification.
-- `integration-test-results.txt` — Full integration-test transcript.
-- `http-defect-fix-results.txt` — HTTP defect reproduction and recovery transcript.
-- `post-restore-verification.txt` — Post-restore service, network, and permission checks.
-- `virtualbox-snapshot-tree.txt` — VirtualBox snapshot tree and clean-baseline selection.
-- `vm-configuration.txt` — VM resources and restored network/service state.
-- `run-member4-tests.sh` — Re-runnable integration-test harness.
-- `capture-access-control.sh` — Access-control evidence capture script.
-- `capture-http-fix.sh` — HTTP defect/fix evidence capture script.
-- `reset-probe.sh` — Controlled hint-file mutation script.
-- `verify-reset.sh` — Root-run post-restore verification script.
+## Stage 5 — Adam's Deleted Timeline
 
-## Integration and testing
+Location: `challenges/TLC-05-adams-deleted-timeline/media.txt`
 
-The integration test suite validates:
+This stage focuses on digital forensics and timeline reconstruction.
 
-- Six-stage clue and artefact progression.
-- Invalid and valid TLC-03 key behaviour.
-- The controlled Bella-to-Adam `sudo` transition.
-- Access restrictions for earlier-stage users.
-- Root-only answer and final-flag permissions.
-- Absence of generated lab credentials from shell history.
-- Web-root permission failure and recovery.
-- VirtualBox snapshot restoration and post-restore service health.
-- Host-only HTTP availability after recovery.
+The file contains evidence from `/media/log` showing:
 
-The documented integration run passed the core clue, access-control, privilege-transition, protected-file, HTTP, and recovery checks. See `Member 4 Evidence/README.md` for the detailed test scope, results, and limitations.
+- user login activity
+- file access events
+- network events around 20:14
+- deletion of a file named `transmission.txt`
+- notes indicating the suspicious time window and the importance of checking network evidence
 
-## Virtual machine and recovery notes
+The challenge highlights how forensic investigators must correlate:
 
-The challenge is designed to run in a controlled virtual-machine environment. Before making changes during testing or deployment:
+- access logs
+- timeline notes
+- hidden or deleted files
+- network-related indicators
 
-1. Confirm the expected VM configuration.
-2. Create or select the clean baseline snapshot.
-3. Run the challenge or integration tests.
-4. Restore the clean snapshot after destructive testing.
-5. Verify the host-only network, HTTP service, file permissions, and challenge state.
+The hidden file `.deleted_transmission.txt` reveals a clue:
 
-The integration evidence references these snapshots:
+- `PCAP-WINDOW=20:14:00-20:15:00`
+- `TLC-05`
 
-- `Member 4 Evidence - Pre-deployment Recovery Point`
-- `Member 4 Evidence - Clean Baseline`
+This points directly to the relevant time range for the next stage's network analysis.
 
-The normal guest account cannot independently inspect some protected post-restore files because those files are root-owned with restrictive permissions. The root-run verification script provides the corresponding privileged check.
+## Stage 6 — Last Transmission
 
-## Educational scope and safety
+Location: `challenges/TLC-06-last-transmission/pcap_analysis.txt`
 
-This project is intended for **authorised educational use only**. Run the VM in an isolated lab environment and do not expose challenge services to networks or systems you do not own or have explicit permission to test.
+This challenge introduces packet capture analysis.
 
-Recommended precautions:
+The included content shows how a PCAP is created in Ubuntu using `scapy` and then inspected with `tshark`.
 
-- Use host-only or isolated networking where possible.
-- Do not reuse real passwords or credentials.
-- Take a clean VM snapshot before testing.
-- Restore the baseline snapshot after each challenge session.
-- Keep challenge evidence and answer files protected from participants.
+The likely malicious transmission pattern includes:
 
-## Known limitations
+- `EVENT=HEARTBEAT`
+- `EVENT=FINAL_TRANSMISSION;TOKEN=TLC-06`
 
-- A standalone flag-submission validator is not currently implemented.
-- Git history/contribution evidence is unavailable inside the deployed challenge directory because it is not itself a Git repository.
-- The installed stage flow follows the selected `root.txt` and video guide. It may differ from the completed report's Stage 3/4 design; the implementation and tests document the deployed flow.
+This stage teaches the importance of monitoring application-layer payloads in network traffic and identifying relevant indicators hidden inside captured packets.
 
-## Contributors
+## Notes
 
-This project was developed collaboratively as a cybersecurity and penetration-testing education project. Contribution-specific evidence and integration documentation are available in the repository branches and evidence directories.
+This repository is intended for educational and authorized cybersecurity training only.
 
-## License
+Use these materials responsibly:
 
-No license file is currently defined for this repository. Unless a license is added, the repository contents should be treated as all rights reserved and used only with the project owner's permission.
+- validate your environment before testing
+- follow ethical security practices
+- do not deploy challenge artifacts in production or public systems
+
+## Story context
+
+The Last Clue is a narrative-driven cybersecurity challenge where each stage builds on evidence uncovered from the digital footprint of the story's characters. This branch represents the middle section of the investigation, where the case turns from local compromise into deeper forensic analysis and covert network communications.
+
+## Related branches
+
+The repository is organized as a story progression across challenge stages. This branch specifically covers the sequence:
+
+- Stage 4: Bella's Scripted Lock
+- Stage 5: Adam's Deleted Timeline
+- Stage 6: Last Transmission
+
+## License and usage
+
+This project is intended for learning and CTF-style practice. Do not use these materials to attack systems without explicit authorization.

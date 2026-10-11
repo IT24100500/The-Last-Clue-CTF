@@ -1,0 +1,8 @@
+MEMBER 4 — HTTP PERMISSION DEFECT / FIX
+=======================================
+Before directory-permission fix: HTTP 404 (expected 404)
+After chmod 0755 and service restart: HTTP 200 (expected 200)
+drwxr-xr-x root:root 755 /var/www
+drwxr-xr-x root:root 755 /var/www/html
+-rw-r--r-- root:root 644 /var/www/html/robots.txt
+PASS: the restrictive web-root traversal permission caused the failure; 0755 restored service.

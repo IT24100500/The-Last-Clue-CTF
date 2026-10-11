@@ -1,0 +1,11 @@
+﻿name="The Last Clue"
+memory=4096
+cpus=4
+VMState="running"
+cableconnected1="off"
+nic1="null"
+hostonlyadapter2="VirtualBox Host-Only Ethernet Adapter"
+cableconnected2="on"
+nic2="hostonly"
+http_service="active"
+host_only_http="http://192.168.56.103/robots.txt returned HTTP 200 after restore and isolation"

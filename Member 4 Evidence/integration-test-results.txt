@@ -1,0 +1,26 @@
+THE LAST CLUE — MEMBER 4 INTEGRATION TESTS
+============================================
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:a00:27ff:fe6f:3b0e/64 fe80::a00:27ff:fe6f:3b0e/64 
+enp0s8           UP             192.168.56.103/24 metric 100 fe80::a00:27ff:fe68:a528/64 
+
+HTTP/SSH listeners:
+State  Recv-Q Send-Q  Local Address:Port Peer Address:Port
+LISTEN 0      4096          0.0.0.0:22        0.0.0.0:*   
+LISTEN 0      5      192.168.56.103:80        0.0.0.0:*   
+LISTEN 0      4096             [::]:22           [::]:*   
+PASS  TLC-01 HTTP clue decodes to its expected result
+PASS  TLC-02 PNG metadata decodes to the expected search locations
+PASS  TLC-04 Base64/Caesar clue decodes to the Adam evidence identifier
+PASS  TLC-05 hidden evidence and logs agree on the PCAP time window
+PASS  TLC-06 PCAP has the expected timed Telnet stream and final result
+PASS  Generated lab credential is absent from shell history
+PASS  TLC-03 invalid key is denied
+PASS  TLC-03 valid key is accepted
+PASS  TLC-04 Bella-to-Adam controlled sudo path works; original note restored
+PASS  Earlier-stage user cannot read protected later-stage evidence or final flag
+PASS  Administrator answer key and final flag are root-only (0600)
+NOT IMPLEMENTED  Standalone flag-submission validator
+NOT AVAILABLE  No Git history for the deployed challenge directory
+
+Integration tests complete. Snapshot recovery is tested separately.

@@ -1,0 +1,3 @@
+﻿   Name: Member 4 Evidence - Pre-deployment Recovery Point (UUID: 2aa4f042-4242-4b40-9b7a-a8b303f64936)
+      Name: Member 4 Evidence - Clean Baseline (UUID: f57b5b96-e7b4-49bf-80fa-fb703b80785d) *
+      Description: Verified six-stage The Last Clue CTF with Host-only networking and clean recovery state.

@@ -1,0 +1,13 @@
+STAGE03:-
+/home/bella/catchme
+
+key - L45VENOK
+
+#!/bin/bash
+read -p "Key: " candidate
+if [ "$candidate" == "L45VENOK" ]; then
+  echo "ACCESS ACCEPTED"
+  echo "/tmp/note.pycd"
+else
+  echo "ACCESS DENIED"
+fi
